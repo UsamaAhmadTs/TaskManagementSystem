@@ -13,7 +13,7 @@ public class TaskRepoImplementation implements TaskRepo {
     public void changeTaskStatus( Task task, String newStatus, Employee employee) {
         if (employee != null && task != null && employee.getUserType().equals("Employee")) {
             if (newStatus.equals("IN_PROGRESS") || newStatus.equals("IN_REVIEW")) {
-                task.setStatus(newStatus, employee);
+                task.setStatus();
             }
         }
     }

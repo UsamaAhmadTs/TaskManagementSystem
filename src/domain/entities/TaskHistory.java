@@ -4,23 +4,18 @@ package domain.entities;
 import java.util.Date;
 
 public class TaskHistory {
-    private int taskId;
     private Date timestamp;
     private String oldStatus;
     private String newStatus;
     private User movedBy;
 
-    public TaskHistory(int taskId, Date timestamp, String oldStatus, String newStatus, User movedBy) {
-        this.taskId = taskId;
+    public TaskHistory(Date timestamp, String oldStatus, String newStatus, User movedBy) {
         this.timestamp = timestamp;
         this.oldStatus = oldStatus;
         this.newStatus = newStatus;
         this.movedBy = movedBy;
     }
 
-    public int getTaskId() {
-        return taskId;
-    }
 
     public Date getTimestamp() {
         return timestamp;

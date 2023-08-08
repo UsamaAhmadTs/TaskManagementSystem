@@ -2,7 +2,7 @@
 package domain.entities;
 
 public class Supervisor extends User {
-    public Supervisor(int userId, String username) {
-        super(userId, username, "Supervisor");
+    public Supervisor(String username, String password) {
+        super(username, password, "Supervisor");
     }
 }
