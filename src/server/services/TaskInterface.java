@@ -12,21 +12,12 @@ import java.util.List;
 
 public interface TaskInterface {
 
-    void assignTask(String title, String fullName, Manager manager);
+    void assignTask(Manager manager, Task task, Employee employee);
 
     List<Task> getAllTasks();
     List<Task> viewAllTasksCreatedByManager(Manager manager, String employeeName);
-    List<Task> viewAllTasksByUser(String employeeName);
 
-    List<Task> viewTasksByStatus(Employee employee);
-
-    List<Task> viewAllTasksByStatus();
-
-    List<Task> viewTasksByUser(String userRole);
-
-   // void changeTaskStatus(String task, Task.Status status, User person);
-
-    //List<Task> viewAllTasksCreatedByManager(Manager activeManager, Task.Status status);
+    List<Task> viewTasksByStatus(String status);
 
     Task getTaskByTitle(String title);
 
@@ -34,8 +25,6 @@ public interface TaskInterface {
 
     List<Task> viewAssignedTasks(Employee employee);
 
-   // List<Task> viewAllTasksCreatedByManager(Manager activeManager, Task.Status status, String employeeName);
-
-    void createTask(Manager activeManager, String title, String description, double total_time);
+    void createTask(Manager activeManager, String title, String description, int total_time);
 
 }

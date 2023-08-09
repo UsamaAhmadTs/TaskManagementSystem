@@ -1,15 +1,16 @@
 // TaskHistory.java
 package server.entities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TaskHistory {
-    private Date timestamp;
+    private Instant timestamp;
     private String oldStatus;
     private String newStatus;
-    private User movedBy;
+    private String movedBy;
 
-    public TaskHistory(Date timestamp, String oldStatus, String newStatus, User movedBy) {
+    public TaskHistory(Instant timestamp, String oldStatus, String newStatus, String movedBy) {
         this.timestamp = timestamp;
         this.oldStatus = oldStatus;
         this.newStatus = newStatus;
@@ -17,19 +18,30 @@ public class TaskHistory {
     }
 
 
-    public Date getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
+    public void setTimestamp(Instant timestamp) {
+            this.timestamp = timestamp;
+        }
 
     public String getOldStatus() {
         return oldStatus;
     }
-
+    public void setOldStatus(String oldStatus) {
+        this.oldStatus = oldStatus;
+    }
     public String getNewStatus() {
         return newStatus;
     }
-
-    public User getMovedBy() {
+    public void setNewStatus(String newStatus) {
+        this.newStatus = newStatus;
+    }
+    public String getMovedBy() {
         return movedBy;
     }
+    public void setMovedBy(String movedBy) {
+        this.movedBy = movedBy;
+    }
+
 }

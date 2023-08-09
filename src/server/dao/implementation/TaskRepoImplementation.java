@@ -13,7 +13,9 @@ public class TaskRepoImplementation implements TaskRepo {
     public List<Task> getAllTask() {
         return tasks;
     }
-
+    public List<Task> task(){
+        return  tasks;
+    }
     @Override
     public void addTask(Task task) {
        this.tasks.add(task);
