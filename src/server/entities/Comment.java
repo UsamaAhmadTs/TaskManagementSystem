@@ -1,29 +1,20 @@
 // Comment.java
-package domain.entities;
+package server.entities;
 
 import java.util.Date;
 
 public class Comment {
-    private int commentId;
     private User createdBy;
     private String body;
     private Date createdAt;
 
-    public Comment(int commentId, User createdBy, String body, Date createdAt) {
-        this.commentId = commentId;
-        this.createdBy = createdBy;
-        this.body = body;
-        this.createdAt = createdAt;
-    }
-
-    public int getCommentId() {
-        return commentId;
-    }
-
+    private Task tasks;
     public User getCreatedBy() {
         return createdBy;
     }
-
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
     public String getBody() {
         return body;
     }
@@ -34,5 +25,11 @@ public class Comment {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+    public void addTaskForComment(Task task) {
+        this.tasks = task;
     }
 }
