@@ -6,8 +6,12 @@ import java.util.Date;
 
 public class TaskHistory {
     private Instant timestamp;
+
+    //Status
     private String oldStatus;
+    //Status
     private String newStatus;
+    //User
     private String movedBy;
 
     public TaskHistory(Instant timestamp, String oldStatus, String newStatus, String movedBy) {

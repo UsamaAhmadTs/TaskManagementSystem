@@ -6,6 +6,8 @@ import java.util.Date;
 public class Comment {
     private User createdBy;
     private String body;
+
+    //replace date with Instant
     private Date createdAt;
 
     private Task tasks;

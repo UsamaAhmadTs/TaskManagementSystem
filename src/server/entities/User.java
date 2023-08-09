@@ -1,9 +1,12 @@
 // User.java
 package server.entities;
 
+//make this class abstract
 public class User {
     private String username;
     private String password;
+
+    //replace with enum
     private String userType;
 
     public User(String username, String password, String userType) {
@@ -32,4 +35,7 @@ public class User {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+    
+    //add abstract method to return user type
+    //implement this method in sub classes
 }

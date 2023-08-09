@@ -25,13 +25,22 @@ public class Task {
     private Status taskStatus;
     private String title;
     private String description;
+
+    //relate with User Object
     private String createdBy;
+    
+    //use Instant
     private String createdAt;
+    
+    //relate with User Object
     private String assignee;
     private int totalTime;
     private List<Comment> comments;
     private boolean assigned;
     private String status;
+    
+    //can have multiple histories
+    //it should be a list
     private TaskHistory taskHistory;
     public Task(String title, String description,  int totalTime ) {
         this.setTitle(title);

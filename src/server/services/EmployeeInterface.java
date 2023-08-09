@@ -3,6 +3,7 @@ import java.util.List;
 import server.entities.Employee;
 import server.entities.Task;
 
+//rename to EmployeeService
 public interface EmployeeInterface {
 
     //void changeTaskStatus(Employee employee, Task task, String newStatus);
