@@ -9,7 +9,7 @@ public class AuthenticationService {
 
     public AuthenticationService() {
         userCredentials = new HashMap<>();
-        userCredentials.put("supervisor", "supervisor123"); // Supervisor's credentials
+        userCredentials.put("supervisor", "supervisor"); // Supervisor's credentials
         userCredentials.put("manager", "manager123");       // Manager's credentials
         userCredentials.put("employee", "employee123");     // Employee's credentials
     }

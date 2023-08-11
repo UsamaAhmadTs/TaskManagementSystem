@@ -13,5 +13,5 @@ public interface EmployeeRepo {
 
     List<User> getEmployeesByName(String name);
 
-    Employee findEmployee(String username);
+    Employee findEmployee(String username, String password);
 }

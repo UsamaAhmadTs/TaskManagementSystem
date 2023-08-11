@@ -1,8 +1,11 @@
 package server.services.implementation;
 
+import server.config.ServerConfig;
 import server.entities.Task;
 import server.entities.TaskHistory;
-import server.services.TaskHistoryInterface;
+import server.services.ManagerService;
+import server.services.TaskHistoryService;
+import server.services.TaskService;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -11,11 +14,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskHistoryService implements TaskHistoryInterface {
+public class TaskHistoryServiceImpl implements TaskHistoryService {
+    private static TaskService taskService = ServerConfig.getTaskService();
 
-    private final TaskService taskService;
+    public TaskHistoryServiceImpl(TaskService taskService) {
 
-    public TaskHistoryService(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -24,7 +27,8 @@ public class TaskHistoryService implements TaskHistoryInterface {
         Task task = taskService.getTaskByTitle(title);
         if (task != null) {
             List<TaskHistory> taskHistories = new ArrayList<>();
-            TaskHistory history = task.getTaskHistory();
+            TaskHistory history = (TaskHistory) task.getTaskHistory();
+            //List<TaskHistory> history = task.getTaskHistory();
 
             Instant timestamp = history.getTimestamp();
             LocalDateTime localDateTime = timestamp.atZone(ZoneId.systemDefault()).toLocalDateTime();

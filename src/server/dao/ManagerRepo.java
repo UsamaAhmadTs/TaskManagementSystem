@@ -14,5 +14,5 @@ public interface ManagerRepo {
 
     List<User> getManagersByName(String name);
 
-    Manager findManager(String username);
+    Manager findManager(String username, String password);
 }

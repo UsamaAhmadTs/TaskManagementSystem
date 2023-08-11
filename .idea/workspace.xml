@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a945190d-8044-4923-a07f-48c24caf5212" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TaskManagementSystem.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/appication/AuthenticationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/appication/TaskManagementApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/Employee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/Manager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/Supervisor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/Task.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/TaskHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entities/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/services/EmployeeInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/services/ManagerInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/services/SuypervisorInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/services/implementation/EmployeeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/services/implementation/ManagerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/services/implementation/SupervisorService.java" afterDir="false" />
+    <list default="true" id="a945190d-8044-4923-a07f-48c24caf5212" name="Changes" comment="TaskManagementSystem update 4">
+      <change afterPath="$PROJECT_DIR$/src/server/config/ServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/appication/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/appication/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/appication/TaskManagementApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/appication/TaskManagementApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/EmployeeRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/EmployeeRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/ManagerRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/ManagerRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/SupervisorRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/SupervisorRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/implementation/EmployeeRepoImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/implementation/EmployeeRepoImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/implementation/ManagerRepoImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/implementation/ManagerRepoImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/implementation/SupervisorRepoImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/implementation/SupervisorRepoImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/implementation/TaskHistoryRepoImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/implementation/TaskHistoryRepoImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/dao/implementation/TaskRepoImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/dao/implementation/TaskRepoImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/entities/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/entities/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/entities/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/entities/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/entities/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/entities/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/entities/TaskHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/entities/TaskHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/EmployeeInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/ManagerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/ManagerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/SupervisorInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/SupervisorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/TaskHistoryInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/TaskHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/TaskInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/implementation/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/implementation/EmployeeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/implementation/ManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/implementation/ManagerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/implementation/SupervisorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/implementation/SupervisorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/implementation/TaskHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/implementation/TaskHistoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/implementation/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/implementation/TaskServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/implementation/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/services/implementation/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +48,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -58,17 +67,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="domain.services" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="debug" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="appication.TaskManagementApp" />
+      <module name="TaskManagementSystem" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class EmployeeRepoImplementation implements EmployeeRepo {
-    private List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees = new ArrayList<>(List.of(new Employee("usama", "1")));
 
     @Override
     public List<Employee> getEmployees() {
@@ -40,9 +40,9 @@ public class EmployeeRepoImplementation implements EmployeeRepo {
     }
 
     @Override
-    public Employee findEmployee(String username) {
+    public Employee findEmployee(String username, String password) {
         for (Employee employee : employees) {
-            if (employee.getUsername().equals(username)) {
+            if (employee.getUsername().equals(username) && employee.getPassword().equals(password)) {
                 return employee;
             }
         }

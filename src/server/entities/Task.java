@@ -32,7 +32,9 @@ public class Task {
     private List<Comment> comments;
     private boolean assigned;
     private String status;
+
     private TaskHistory taskHistory;
+    private List<TaskHistory> taskHistoryList;
     public Task(String title, String description,  int totalTime ) {
         this.setTitle(title);
         this.setDescription(description);
@@ -103,14 +105,12 @@ public class Task {
 
         this.totalTime = totalTime;
     }
-    public TaskHistory getTaskHistory() {
-
-        return taskHistory;
+    public void addTaskHistory(TaskHistory taskHistory) {
+        taskHistoryList.add(taskHistory);
     }
 
-    public void setTaskHistory(TaskHistory taskHistory) {
-
-        this.taskHistory = taskHistory;
+    public List<TaskHistory> getTaskHistory() {
+        return taskHistoryList;
     }
 
     public List<Comment> getComments() {

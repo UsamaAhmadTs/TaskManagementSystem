@@ -33,7 +33,7 @@ public class TaskHistoryRepoImplementation implements TaskHistoryRepo {
         {
             if(giventask.getTitle().equals(task.getTitle()))
             {
-                giventask.setTaskHistory(taskHistory);
+                giventask.addTaskHistory(taskHistory);
 
             }
         }

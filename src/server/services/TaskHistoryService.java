@@ -4,7 +4,7 @@ import server.entities.TaskHistory;
 
 import java.util.List;
 
-public interface TaskHistoryInterface {
+public interface TaskHistoryService {
     List<TaskHistory> viewTaskHistory(String title);
 
 }

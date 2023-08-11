@@ -1,6 +1,7 @@
 package server.dao.implementation;
 
 import server.dao.ManagerRepo;
+import server.entities.Employee;
 import server.entities.Manager;
 import server.entities.User;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerRepoImplementation implements ManagerRepo {
-    private List<Manager> managers = new ArrayList<>();
+    private List<Manager> managers = new ArrayList<>(List.of(new Manager("usama", "1")));
 
     @Override
     public List<Manager> getManagers() {
@@ -39,9 +40,9 @@ public class ManagerRepoImplementation implements ManagerRepo {
     }
 
     @Override
-    public Manager findManager(String username) {
+    public Manager findManager(String username, String password) {
         for (Manager manager : managers) {
-            if (manager.getUsername().equals(username)) {
+            if (manager.getUsername().equals(username) && manager.getPassword().equals(password)) {
                 return manager;
             }
         }

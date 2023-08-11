@@ -1,18 +1,18 @@
  //ManagerService.java
 package server.services.implementation;
-import server.services.ManagerInterface;
 import server.dao.ManagerRepo;
 import server.dao.TaskRepo;
+import server.entities.Employee;
 import server.entities.Manager;
 import server.entities.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManagerService implements ManagerInterface {
+public class ManagerServiceImpl implements server.services.ManagerService {
     private final ManagerRepo managerRepo;
     private final TaskRepo taskRepo;
 
-    public ManagerService(ManagerRepo managerRepo, TaskRepo taskRepo) {
+    public ManagerServiceImpl(ManagerRepo managerRepo, TaskRepo taskRepo) {
         this.managerRepo = managerRepo;
         this.taskRepo = taskRepo;
     }
@@ -22,7 +22,7 @@ public class ManagerService implements ManagerInterface {
         if (manager != null) {
             List<Task> allTasks = taskRepo.getAllTask(); // Get tasks from the repository
             for (Task task : allTasks) {
-                if (task.getCreatedBy() != null && task.getCreatedBy().equals(manager)) {
+                if (task.getCreatedBy() != null)  {
                     tasksCreatedByManager.add(task);
                 }
             }
@@ -34,5 +34,8 @@ public class ManagerService implements ManagerInterface {
             System.out.println(manager.getUsername());
         }
         return null;
+    }
+    public Manager findManager(String username, String password) {
+        return managerRepo.findManager(username, password);
     }
 }
