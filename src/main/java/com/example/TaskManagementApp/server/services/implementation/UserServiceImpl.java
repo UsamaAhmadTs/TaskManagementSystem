@@ -1,0 +1,95 @@
+
+package com.example.TaskManagementApp.server.services.implementation;
+import com.example.TaskManagementApp.server.dao.EmployeeRepo;
+import com.example.TaskManagementApp.server.dao.ManagerRepo;
+import com.example.TaskManagementApp.server.dao.UserRepo;
+import com.example.TaskManagementApp.server.dto.UserDto;
+import com.example.TaskManagementApp.server.dto.UsernamePasswordDto;
+import com.example.TaskManagementApp.server.entities.Employee;
+import com.example.TaskManagementApp.server.entities.Manager;
+import com.example.TaskManagementApp.server.entities.User;
+import com.example.TaskManagementApp.server.exception.ForbiddenAccessException;
+import com.example.TaskManagementApp.server.exception.UnauthorizedAccessException;
+import com.example.TaskManagementApp.server.exception.UserNotFoundException;
+import com.example.TaskManagementApp.server.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    private final UserRepo userRepo;
+    private final ManagerRepo managerRepo;
+    private final EmployeeRepo employeeRepo;
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    public UserServiceImpl(UserRepo userRepository, ManagerRepo managerRepo, EmployeeRepo employeeRepo) {
+        this.managerRepo = managerRepo;
+        this.userRepo = userRepository;
+        this.employeeRepo = employeeRepo;
+        this.userRepo.initializeUsers();
+    }
+
+@Override
+public void createUser(UserDto userDto, UserDto authenticatedUser) {
+    validateUser(authenticatedUser);
+    if (userDto.getUserType() == User.UserType.EMPLOYEE) {
+        Employee employee = employeeRepo.createEmployee(userDto.getUserName(), userDto.getPassword());
+        userRepo.addUser(employee);
+    } else if (userDto.getUserType() == User.UserType.MANAGER) {
+        Manager manager = managerRepo.createManager(userDto.getUserName(), userDto.getPassword());
+        userRepo.addUser(manager);
+    }
+    logger.info("created {}", userDto);
+}
+
+    private void validateUser(UserDto authenticatedUser) {
+        if (!isSupervisor(authenticatedUser)) {
+            throw new ForbiddenAccessException("Unauthorized");
+        }
+    }
+    private boolean isSupervisor(UserDto userDto) {
+        return userDto.getUserType() == User.UserType.SUPERVISOR;
+    }
+
+    @Override
+    public User verifyUserCredentials(String username, String password) {
+        User user = userRepo.findUserByUsername(username);
+
+        if (Objects.isNull(user)) {
+            throw new UnauthorizedAccessException("Invalid credentials");
+        }
+        if (user.getPassword().equals(password)) {
+            logger.info("Verified {}", user);
+            return user;
+        } else {
+            logger.error("Not Verified: Passwords do not match for user {}", user);
+            throw new UserNotFoundException("");
+        }
+    }
+    @Override
+    public UserDto verifyUserCredentials(UsernamePasswordDto usernamePassword) {
+        if (Objects.isNull(usernamePassword)) {
+            throw new UnauthorizedAccessException("Unauthorized");
+        }
+        User user = verifyUserCredentials(usernamePassword.getUsername(), usernamePassword.getPassword());
+        if (Objects.isNull(user)) {
+            throw new UserNotFoundException("User not found");
+        }
+        return UserDto.fromEntity(user);
+    }
+
+    @Override
+    public List<User> getAllUsers(UserDto authenticatedUser) {
+        if (isSupervisor(authenticatedUser)) {
+            return userRepo.getUsers();
+        }
+        throw new UnauthorizedAccessException("Unauthorized");
+    }
+
+}
+
