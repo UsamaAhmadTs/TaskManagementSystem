@@ -1,8 +1,15 @@
 package com.example.TaskManagementApp.server.entities;
 
+import jakarta.persistence.*;
+
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String userName;
     private String password;
+    @Enumerated(EnumType.STRING)
     private UserType  userType;
 
     public enum UserType {
@@ -10,7 +17,6 @@ public class User {
         MANAGER,
         SUPERVISOR
     }
-
 
     public User(String userName, String password, UserType userType) {
         this.userName = userName;

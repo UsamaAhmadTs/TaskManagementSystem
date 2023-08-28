@@ -11,19 +11,19 @@ public class TaskDto {
     private Task.Status status;
     private String title;
     private String description;
-    private User createdBy;
+    private String createdBy;
     private Instant createdAt;
     private int totalTime;
     private boolean assigned;
 
 
-    public enum Status {
-        CREATED,
-        IN_PROGRESS,
-        COMPLETED,
-        IN_REVIEW
-    }
-    public TaskDto(String title, String description, int totalTime,Instant createdAt, User createdBy) {
+//    public enum Status {
+//        CREATED,
+//        IN_PROGRESS,
+//        COMPLETED,
+//        IN_REVIEW
+//    }
+    public TaskDto(String title, String description, int totalTime,Instant createdAt, String createdBy) {
         this.setStatus(Task.Status.CREATED);
         this.title = title;
         this.description = description;
@@ -57,11 +57,11 @@ public class TaskDto {
         this.description = description;
     }
 
-    public User getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -88,7 +88,7 @@ public class TaskDto {
     public void setAssigned(boolean assigned) {
         this.assigned = assigned;
     }
-    public static TaskDto fromEntity(Task task) {
-        return new TaskDto( task.getTitle(), task.getDescription(),task.getTotalTime(),task.getCreatedAt(), task.getCreatedBy());
-    }
+//    public static TaskDto fromEntity(Task task) {
+//        return new TaskDto( task.getTitle(), task.getDescription(),task.getTotalTime(),task.getCreatedAt(), task.getCreatedBy());
+//    }
 }
