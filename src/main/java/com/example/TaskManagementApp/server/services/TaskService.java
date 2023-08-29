@@ -12,6 +12,8 @@ public interface TaskService {
 
     void assignTask(Manager manager, Task task, Employee employee);
     void UpdateStatus(Task task, Task.Status status,UserDto authenticatedUser);
+    void updateTask(UserDto authenticatedUser, TaskDto taskDTO);
+
     List<Task> getAllTasks();
     void printAllTasks(List<Task> tasks);
     List<Task> viewAllTasksCreatedByManager(Manager manager);

@@ -1,19 +1,14 @@
 
 package com.example.TaskManagementApp.server.dao;
 
+import com.example.TaskManagementApp.server.entities.Task;
 import com.example.TaskManagementApp.server.entities.User;
 import com.example.TaskManagementApp.server.entities.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EmployeeRepo {
-    List<Employee> getEmployees();
+public interface EmployeeRepo extends JpaRepository<Employee, String> {
+    Employee getEmployeesByUserName(String UserName);
 
-    void addEmployee(Employee employee);
-
-    Employee createEmployee(String username, String password);
-
-    List<User> getEmployeesByName(String name);
-
-    Employee findEmployee(String username);
 }

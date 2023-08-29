@@ -1,56 +1,51 @@
 package com.example.TaskManagementApp.server.entities;
-import com.example.TaskManagementApp.server.dto.TaskDto;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Table(name = "tasks")
+@Table()
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Enumerated(EnumType.STRING)
     private Status taskStatus;
 
-    @Column(nullable = false)
-    private String title;
+    @Column(name = "taskTitle",nullable = false)
+    private String taskTitle;
 
-    @Column(length = 1000)
+    @Column(name = "description",length = 1000)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "createdBy")
     private User createdBy;
 
-    @Column(nullable = false)
+    @Column(name = "createdAt",nullable = false)
     private Instant createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "assignee-name")
-    private User assignee;
     @Column(name = "totalTime",nullable = false,length = 10)
     private int totalTime;
-    @Column(name = "isAssigned",nullable = false)
+    @Column(nullable = false)
     private boolean assigned;
 
     @ManyToOne
-    @JoinColumn(name = "assigned_to")
-    private User assignedTo;
+    @JoinColumn(name = "assignee")
+    private User assignee;
+    @Column(name = "start_Time")
+    private Instant startTime;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_id")
-    private List<TaskHistory> taskHistory = new ArrayList<>();
-    public Task() {
-
-    }
-    public Task(String title, String description, int totalTime) {
+    public Task() {}
+    public Task(String taskTitle, String description, int totalTime) {
         this.setTaskStatus(Status.CREATED);
-        this.setTitle(title);
+        this.setTaskTitle(taskTitle);
         this.setDescription(description);
         this.setTotalTime(totalTime);
         this.setAssigned(false);
     }
+
+
 
     public enum Status {
         CREATED,
@@ -58,12 +53,19 @@ public class Task {
         COMPLETED,
         IN_REVIEW
     }
-    public User getAssignedTo() {
-        return assignedTo;
+    public Instant getStartTime() {
+        return startTime;
     }
 
-    public void setAssignedTo(User assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+    public User getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User assignedTo) {
+        this.assignee = assignedTo;
     }
     public Status getTaskStatus() {
         return taskStatus;
@@ -81,12 +83,12 @@ public class Task {
         this.createdAt = createdAt;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTaskTitle() {
+        return taskTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTaskTitle(String title) {
+        this.taskTitle = title;
     }
 
     public String getDescription() {
@@ -114,14 +116,6 @@ public class Task {
         this.assigned = assigned;
     }
 
-    public User getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
-    }
-
     public int getTotalTime() {
 
         return totalTime;
@@ -131,14 +125,14 @@ public class Task {
 
         this.totalTime = totalTime;
     }
-    public List<TaskHistory> getHistory(Task task) {
-        return task.taskHistory;
-    }
-
-    public void setHistory(TaskHistory history) {
-        taskHistory.add(history);
-        history.setTask(this);
-    }
+//    public List<TaskHistory> getTaskHistory(Task task) {
+//        return task.taskHistory;
+//    }
+//
+//    public void setTaskHistory(TaskHistory history) {
+//        taskHistory.add(history);
+//        history.setTask(this);
+//    }
 
 
 

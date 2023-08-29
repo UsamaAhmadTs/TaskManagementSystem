@@ -2,19 +2,13 @@
 package com.example.TaskManagementApp.server.dao;
 
 import com.example.TaskManagementApp.server.entities.Manager;
+import com.example.TaskManagementApp.server.entities.Task;
 import com.example.TaskManagementApp.server.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 
-public interface ManagerRepo {
-    List<Manager> getManagers();
-
-    void addManager(Manager manager);
-
-    Manager createManager(String username, String password);
-
-    List<User> getManagersByName(String name);
-
-    Manager findManager(String username);
+public interface ManagerRepo extends JpaRepository<Manager, String> {
+    Manager getManagersByUserName(String UserName);
 }

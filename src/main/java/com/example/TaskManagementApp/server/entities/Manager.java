@@ -6,8 +6,11 @@ import jakarta.persistence.Entity;
 @JsonTypeName("Manager")
 @Entity
 public class Manager extends User {
-    public Manager(String userName, String password) {
+    public Manager(String userName, String password,UserType userType ) {
         super(userName, password, UserType.MANAGER);
     }
 
+    public Manager() {
+
+    }
 }

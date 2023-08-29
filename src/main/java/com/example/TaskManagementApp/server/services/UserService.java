@@ -10,9 +10,11 @@ import java.util.List;
 public interface UserService {
     void createUser(UserDto userDto, UserDto authenticatedUser);
 
-    List<User> getAllUsers(UserDto authenticatedUser);
+    List<User> getAllUsers(UserDto authenticatedUser, User.UserType userType);
 
     User verifyUserCredentials(String username, String password);
 
     UserDto verifyUserCredentials(UsernamePasswordDto usernamePassword);
+
+    void initializeUsers();
 }

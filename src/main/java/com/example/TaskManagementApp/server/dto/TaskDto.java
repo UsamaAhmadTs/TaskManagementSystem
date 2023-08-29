@@ -12,6 +12,7 @@ public class TaskDto {
     private String title;
     private String description;
     private String createdBy;
+    private String assignee;
     private Instant createdAt;
     private int totalTime;
     private boolean assigned;
@@ -31,6 +32,14 @@ public class TaskDto {
         this.setAssigned(false);
         this.createdAt= createdAt;
         this.createdBy= createdBy;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 
     public Task.Status getStatus() {
