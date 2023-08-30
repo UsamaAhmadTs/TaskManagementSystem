@@ -1,5 +1,7 @@
 package com.example.TaskManagementApp.server.services;
+import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.dto.UsernamePasswordDto;
+import com.example.TaskManagementApp.server.entities.User;
 import com.example.TaskManagementApp.server.exception.UnauthorizedAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,4 +20,8 @@ public UsernamePasswordDto extractUsernamePassword(@RequestHeader("Authorization
     String password = parts[1];
     return new UsernamePasswordDto(username, password);
 }
+    public User.UserType getUserType(UserDto authenticatedUser) {
+
+        return authenticatedUser.getUserType();
+    }
 }

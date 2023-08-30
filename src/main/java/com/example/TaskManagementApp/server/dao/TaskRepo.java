@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface TaskRepo extends JpaRepository<Task, String> {
+public interface TaskRepo extends JpaRepository<Task, String>, customRepository {
 
     Task getTaskByTaskTitle(String TaskTitle);
 

@@ -1,5 +1,6 @@
 package com.example.TaskManagementApp.server.services.implementation;
 import com.example.TaskManagementApp.server.dao.*;
+import com.example.TaskManagementApp.server.dto.QueryParameterDto;
 import com.example.TaskManagementApp.server.dto.TaskDto;
 import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.entities.Employee;
@@ -9,6 +10,7 @@ import com.example.TaskManagementApp.server.entities.User;
 import com.example.TaskManagementApp.server.exception.BadRequestException;
 import com.example.TaskManagementApp.server.exception.ForbiddenAccessException;
 import com.example.TaskManagementApp.server.exception.UserNotFoundException;
+import com.example.TaskManagementApp.server.services.AuthService;
 import com.example.TaskManagementApp.server.services.EmployeeService;
 import com.example.TaskManagementApp.server.services.ManagerService;
 import com.example.TaskManagementApp.server.services.TaskService;
@@ -32,20 +34,62 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepo userRepo;
     private final EmployeeRepo employeeRepo;
     private final ManagerRepo managerRepo;
+    private final AuthService authService;
     //private final TaskHistoryRepo taskHistoryRepo;
     private static TaskServiceImpl instance;
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 
-    public TaskServiceImpl(EmployeeService employeeService,UserRepo userRepo, ManagerService managerService, TaskRepo taskRepo, EmployeeRepo employeeRepo, ManagerRepo managerRepo) {
+    public TaskServiceImpl(EmployeeService employeeService,AuthService authService,UserRepo userRepo, ManagerService managerService, TaskRepo taskRepo, EmployeeRepo employeeRepo, ManagerRepo managerRepo) {
         this.employeeService = employeeService;
         this.managerServiceImpl = managerService;
         this.taskRepo = taskRepo;
         this.employeeRepo = employeeRepo;
         this.managerRepo = managerRepo;
-       // this.taskHistoryRepo = taskHistoryRepo;
-
+        this.authService= authService;
+        // this.taskHistoryRepo = taskHistoryRepo;
         this.userRepo= userRepo;
 
+    }
+    public List<TaskDto> getTasksByQueryParameters(UserDto authenticatedUser, QueryParameterDto queryParameters) {
+        validateIfSupervisorCanViewTasks(authenticatedUser, queryParameters);
+        validateIfManagerCanViewTasks(authenticatedUser, queryParameters);
+        validateIfEmployeeCanViewTasks(authenticatedUser, queryParameters);
+        List<Task> tasks = taskRepo.getTasks(authenticatedUser, queryParameters);
+        return null;
+    }
+    private void validateIfSupervisorCanViewTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
+        boolean isSupervisor = Objects.equals(authenticatedUser.getUserType(), User.UserType.SUPERVISOR);
+        String queryUserName =queryParameters.getUsername();
+        User queryUser = userRepo.getUserByUserName(queryUserName);
+        boolean otherSupervisorTasks=queryUser!=null && queryUser.getUserType().equals(User.UserType.SUPERVISOR)
+                && !authenticatedUser.getUserName().equals(queryUser.getUserName());
+        if (isSupervisor && otherSupervisorTasks) {
+            throw new ForbiddenAccessException("User Not Validated");
+        }
+    }
+    private void validateIfManagerCanViewTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
+        User.UserType userType = authService.getUserType(authenticatedUser);
+        boolean isManager = Objects.equals(authenticatedUser.getUserType(), User.UserType.MANAGER);
+        String queryUserName = queryParameters.getUsername();
+        User queryUser = userRepo.getUserByUserName(queryUserName);
+        boolean others = queryUser!=null &&(queryUser.getUserType().equals(User.UserType.SUPERVISOR));
+        boolean otherManagerTasks = queryUser!=null && !Objects.equals(authenticatedUser.getUserName(), queryUser.getUserName())
+                && queryUser.getUserType().equals(userType);
+        if(isManager && otherManagerTasks){
+            throw new ForbiddenAccessException("User Not Validated");
+        }
+        if(isManager && others){
+            throw new ForbiddenAccessException("User Not Validated");
+        }
+    }
+    private void validateIfEmployeeCanViewTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
+        boolean isEmployee = Objects.equals(authenticatedUser.getUserType(), User.UserType.EMPLOYEE);
+        String queryUserName = queryParameters.getUsername();
+        User queryUser = userRepo.getUserByUserName(queryUserName);
+        boolean otherEmployeeTasks = queryUser!=null && !queryUser.getUserName().equals(authenticatedUser.getUserName());
+        if (isEmployee && otherEmployeeTasks){
+            throw new ForbiddenAccessException("User Not Validated");
+        }
     }
     @Override
     public List<Task> viewAllTasksByStatus(Task.Status status){

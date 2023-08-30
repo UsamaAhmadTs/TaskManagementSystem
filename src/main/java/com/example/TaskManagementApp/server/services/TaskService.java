@@ -1,5 +1,6 @@
 package com.example.TaskManagementApp.server.services;
 
+import com.example.TaskManagementApp.server.dto.QueryParameterDto;
 import com.example.TaskManagementApp.server.dto.TaskDto;
 import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.entities.Employee;
@@ -10,17 +11,12 @@ import java.util.List;
 
 public interface TaskService {
     void updateTask(UserDto authenticatedUser, TaskDto taskDTO);
-
+    List<TaskDto> getTasksByQueryParameters(UserDto authenticatedUser, QueryParameterDto queryParameters);
+    void createTask(TaskDto taskDto, UserDto authenticatedUser);
     List<Task> getAllTasks();
     List<Task> viewAllTasksCreatedByManager(Manager manager);
-
     List<Task> viewAllTasksByStatus(Task.Status status);
-
     Task getTaskByTitle(String title);
-
     List<Task> viewAssignedTasks(Employee employee);
-
-    void createTask(TaskDto taskDto, UserDto authenticatedUser);
-
     Manager convertUserNameToManager(String userName);
 }

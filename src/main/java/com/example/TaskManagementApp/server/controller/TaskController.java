@@ -1,4 +1,5 @@
 package com.example.TaskManagementApp.server.controller;
+import com.example.TaskManagementApp.server.dto.QueryParameterDto;
 import com.example.TaskManagementApp.server.dto.TaskDto;
 import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.dto.UsernamePasswordDto;
@@ -54,36 +55,41 @@ public class TaskController {
 //        return ResponseEntity.ok(taskTitles);
 //    }
 
+//    @GetMapping("/")
+//    public List<Task> getAllTasks() {
+//        return taskService.getAllTasks();
+//    }
+
     @GetMapping("/")
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<List<Task>> viewAllTasksByStatus(@RequestParam("status") Task.Status status) {
-        List<Task> tasksByStatus = taskService.viewAllTasksByStatus(status);
-        return ResponseEntity.ok(tasksByStatus);
-    }
-
-    @GetMapping("/title")
-    public Task getTaskByTitle(@RequestParam String title) {
-        return taskService.getTaskByTitle(title);
-    }
-    @GetMapping("/assigned-tasks")
-    public ResponseEntity<List<Task>> viewAssignedTasks(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<List<TaskDto>> getTasks(@RequestParam("status") Task.Status status,
+                                                           @RequestParam String userName,
+                                                           @RequestHeader("Authorization") String authorizationHeader) {
         UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);
         UserDto authenticatedUser = userService.verifyUserCredentials(usernamePassword);
-        Employee authenticatedEmployee = employeeService.convertUserNameToEmployee(authenticatedUser.getUserName());
-        List<Task> assignedTasks = taskService.viewAssignedTasks(authenticatedEmployee);
-        return ResponseEntity.ok(assignedTasks);
+        QueryParameterDto queryParameterDto = QueryParameterDto.create(userName,status);
+        List<TaskDto> tasks = taskService.getTasksByQueryParameters(authenticatedUser, queryParameterDto);
+        return ResponseEntity.ok(tasks);
     }
+
+//    @GetMapping("/title")
+//    public Task getTaskByTitle(@RequestParam String title) {
+//        return taskService.getTaskByTitle(title);
+//    }
+//    @GetMapping("/assigned-tasks")
+//    public ResponseEntity<List<Task>> viewAssignedTasks(@RequestHeader("Authorization") String authorizationHeader) {
+//        UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);
+//        UserDto authenticatedUser = userService.verifyUserCredentials(usernamePassword);
+//        Employee authenticatedEmployee = employeeService.convertUserNameToEmployee(authenticatedUser.getUserName());
+//        List<Task> assignedTasks = taskService.viewAssignedTasks(authenticatedEmployee);
+//        return ResponseEntity.ok(assignedTasks);
+//    }
 
     @PutMapping("/")
     public ResponseEntity<String> update(
-            @RequestHeader("Authorization") String authorizationHeader, @RequestBody TaskDto taskDTO) {
+            @RequestHeader("Authorization") String authorizationHeader, @RequestBody TaskDto taskDto) {
         UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);
         UserDto authenticatedUser = userService.verifyUserCredentials(usernamePassword);
-        taskService.updateTask(authenticatedUser, taskDTO);
+        taskService.updateTask(authenticatedUser, taskDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
