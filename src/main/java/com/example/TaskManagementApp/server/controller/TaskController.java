@@ -78,33 +78,7 @@ public class TaskController {
         return ResponseEntity.ok(assignedTasks);
     }
 
-//    @PatchMapping("/assign")
-//    public ResponseEntity<String> assignTask(@RequestParam String taskTitle, @RequestParam String employeeUsername, @RequestHeader("Authorization") String authorizationHeader) {
-//        UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);
-//        UserDto authenticatedUser = userService.verifyUserCredentials(usernamePassword);
-//        Manager manager = taskService.convertUserNameToManager(authenticatedUser.getUserName());
-//        Employee employee = employeeRepo.(employeeUsername);
-//        Task task = taskService.getTaskByTitle(taskTitle);
-//        taskService.assignTask(manager, task, employee);
-//        return ResponseEntity.ok("Task assigned successfully.");
-//    }
-
-//@PatchMapping("/update")
-//public ResponseEntity<?> updateTaskStatus(@RequestParam String taskTitle, @RequestParam Task.Status status,@RequestHeader("Authorization") String authorizationHeader) {
-//    UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);
-//    UserDto authenticatedUser = userService.verifyUserCredentials(usernamePassword);
-//    Task task = taskService.getTaskByTitle(taskTitle);
-//    taskService.UpdateStatus(task, status, authenticatedUser);
-//    return ResponseEntity.ok("Task status updated successfully");
-//}
-//    @PatchMapping("/archive")
-//    public ResponseEntity<String> archiveTask(@RequestBody TaskDto taskDto, @RequestHeader("Authorization") String authorizationHeader) {
-//        UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);
-//        UserDto authenticatedUser = userService.verifyUserCredentials(usernamePassword);
-//        taskService.archiveTask(taskDto,authenticatedUser);
-//        return ResponseEntity.ok("Task archived successfully");
-//    }
-    @PutMapping()
+    @PutMapping("/")
     public ResponseEntity<String> update(
             @RequestHeader("Authorization") String authorizationHeader, @RequestBody TaskDto taskDTO) {
         UsernamePasswordDto usernamePassword = authService.extractUsernamePassword(authorizationHeader);

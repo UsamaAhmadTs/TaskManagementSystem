@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
         this.userRepo = userRepository;
         this.employeeRepo = employeeRepo;
         this.emf = emf;
-        //this.userRepo.initializeUsers();
     }
     public void initializeUsers() {
         EntityManager em = emf.createEntityManager();

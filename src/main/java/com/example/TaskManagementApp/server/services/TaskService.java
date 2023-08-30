@@ -9,20 +9,14 @@ import com.example.TaskManagementApp.server.entities.Task;
 import java.util.List;
 
 public interface TaskService {
-
-    void assignTask(Manager manager, Task task, Employee employee);
-    void UpdateStatus(Task task, Task.Status status,UserDto authenticatedUser);
     void updateTask(UserDto authenticatedUser, TaskDto taskDTO);
 
     List<Task> getAllTasks();
-    void printAllTasks(List<Task> tasks);
     List<Task> viewAllTasksCreatedByManager(Manager manager);
 
     List<Task> viewAllTasksByStatus(Task.Status status);
 
     Task getTaskByTitle(String title);
-
-    void archiveTask(TaskDto taskDto,UserDto authenticatedUser);
 
     List<Task> viewAssignedTasks(Employee employee);
 
