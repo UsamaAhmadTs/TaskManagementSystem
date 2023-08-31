@@ -3,8 +3,6 @@ import com.example.TaskManagementApp.server.dao.*;
 import com.example.TaskManagementApp.server.dto.QueryParameterDto;
 import com.example.TaskManagementApp.server.dto.TaskDto;
 import com.example.TaskManagementApp.server.dto.UserDto;
-import com.example.TaskManagementApp.server.entities.Employee;
-import com.example.TaskManagementApp.server.entities.Manager;
 import com.example.TaskManagementApp.server.entities.Task;
 import com.example.TaskManagementApp.server.entities.User;
 import com.example.TaskManagementApp.server.exception.BadRequestException;
@@ -29,13 +27,11 @@ import java.util.Objects;
 public class TaskServiceImpl implements TaskService {
     private final TaskRepo taskRepo;
     private final UserRepo userRepo;
-    private final ManagerRepo managerRepo;
     private final AuthService authService;
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 @Autowired
-    public TaskServiceImpl(AuthService authService,UserRepo userRepo, TaskRepo taskRepo, ManagerRepo managerRepo) {
+    public TaskServiceImpl(AuthService authService,UserRepo userRepo, TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
-        this.managerRepo = managerRepo;
         this.authService= authService;
         this.userRepo= userRepo;
     }
@@ -55,6 +51,7 @@ public class TaskServiceImpl implements TaskService {
             taskDto.setDescription(task.getDescription());
             taskDto.setStatus(task.getTaskStatus());
             taskDto.setAssignee(Objects.isNull(task.getAssignee()) ? null : task.getAssignee().getUserName());
+            taskDto.setAssigned(task.isAssigned());
             taskDto.setCreatedAt(task.getCreatedAt());
             taskDto.setCreatedBy(task.getCreatedBy().getUserName());
             taskDto.setTotalTime(task.getTotalTime());
@@ -96,34 +93,7 @@ public class TaskServiceImpl implements TaskService {
             throw new ForbiddenAccessException("User Not Validated");
         }
     }
-    @Override
-    public List<Task> viewAllTasksByStatus(Task.Status status){
-        List<Task> tasksByStatus = new ArrayList<>();
-        for (Task task : taskRepo.findAll()) {
-            if (task.getTaskStatus() == status) {
-                tasksByStatus.add(task);
-            }
-        }
-        return tasksByStatus;
-    }
-    @Override
-    public List<Task> getAllTasks() {
-        return taskRepo.findAll();
-    }
 
-    @Override
-    public List<Task> viewAllTasksCreatedByManager(Manager manager) {
-        List<Task> tasksCreatedByManager = new ArrayList<>();
-        for (Task task : taskRepo.findAll()) {
-            if (task.getCreatedBy().equals(manager)) {
-                tasksCreatedByManager.add(task);
-            }
-        }
-        if (tasksCreatedByManager.isEmpty()) {
-            logger.info("No Task created by you");
-        }
-        return tasksCreatedByManager;
-    }
     @Override
     public void updateTask(UserDto authenticatedUser, TaskDto taskDto) {
         Task existingTask = taskRepo.getTaskByTaskTitle(taskDto.getTitle());
@@ -132,11 +102,11 @@ public class TaskServiceImpl implements TaskService {
         validateIfUserCanChangeStatus(authenticatedUser,taskDto,existingTask);
         Task incomingTask = new Task();
         BeanUtils.copyProperties(existingTask,incomingTask);
-        Task updateTask = TaskMapper(existingTask,taskDto,authenticatedUser);
+        Task updateTask = TaskMapper(existingTask,taskDto);
 
         taskRepo.save(updateTask);
     }
-    private Task TaskMapper(Task existingTask,TaskDto incomingTask,UserDto authenticatedUser) {
+    private Task TaskMapper(Task existingTask,TaskDto incomingTask) {
         existingTask.setTaskStatus(incomingTask.getStatus());
         existingTask.setDescription(incomingTask.getDescription());
         existingTask.setTotalTime(incomingTask.getTotalTime());
@@ -242,74 +212,4 @@ private void validateIfUserCanAssignTask(UserDto authenticatedUser, TaskDto task
         return user;
     }
 
-    @Override
-    public Manager convertUserNameToManager(String username) {
-        Manager manager = managerRepo.getManagersByUserName(username);
-        if (Objects.isNull(manager)) {
-            throw new UserNotFoundException("Manager not found");
-        }
-        return manager;
-    }
-    @Override
-    public Task getTaskByTitle(String title) {
-        for (Task task : taskRepo.findAll()) {
-            if (title.equalsIgnoreCase(task.getTaskTitle())) {
-                return task;
-            }
-        }
-        throw new BadRequestException("task doesn't exist");
-    }
-    @Override
-    public List<Task> viewAssignedTasks(Employee employee) {
-        List<Task> assignedTasks = new ArrayList<>();
-            for (Task task : taskRepo.findAll()) {
-                if (task.isAssigned() && task.getAssignee().equals(employee)) {
-                    assignedTasks.add(task);
-                }
-            }
-        return assignedTasks;
-    }
-
 }
-//    public List<TaskDto> getTasksByQueryParameters(UserDto authenticatedUser, QueryParameterDto queryParameters) {
-//        validateIfSupervisorCanViewAllTasks(authenticatedUser, queryParameters);
-//        validateIfManagerCanViewAllTasks(authenticatedUser, queryParameters);
-//        validateIfEmployeeCanViewAllTasks(authenticatedUser, queryParameters);
-//        List<Task> tasks= taskRepo.filterTasksByParameters(authenticatedUser,queryParameters);
-//
-//    }
-//    private void validateIfSupervisorCanViewAllTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
-//        boolean isSupervisor = Objects.equals(authenticatedUser.getUserType(), User.UserType.SUPERVISOR);
-//        String queryUserName =queryParameters.getUsername();
-//        User queryUser = userRepo.findUserByUsername(queryUserName);
-//        boolean canseeOtherSupervisorTasks=queryUser!=null && queryUser.getUserType().equals(User.UserType.SUPERVISOR)
-//                && !authenticatedUser.getUserName().equals(queryUser.getUserName());
-//        if (isSupervisor && canseeOtherSupervisorTasks) {
-//            throw new ForbiddenAccessException("User Not Validated");
-//        }
-//    }
-//    private void validateIfManagerCanViewAllTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
-//        User.UserType userType = authService.getUserType(authenticatedUser);
-//        boolean isManager = Objects.equals(authenticatedUser.getUserType(), User.UserType.MANAGER);
-//        String queryUserName = queryParameters.getUsername();
-//        User queryUser = userRepo.findUserByUsername(queryUserName);
-//        boolean others = queryUser!=null &&(queryUser.getUserType().equals(User.UserType.SUPERVISOR));
-//        boolean sameManager = queryUser!=null && !Objects.equals(authenticatedUser.getUserName(), queryUser.getUserName())
-//                && queryUser.getUserType().equals(userType);
-//        if(isManager && sameManager){
-//            //log
-//            throw new ForbiddenAccessException("User Not Validated");
-//        }
-//        if(isManager && others){
-//            throw new ForbiddenAccessException("User Not Validated");
-//        }
-//    }
-//    private void validateIfEmployeeCanViewAllTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
-//        boolean isEmployee = Objects.equals(authenticatedUser.getUserType(), User.UserType.EMPLOYEE);
-//        String queryUserName = queryParameters.getUsername();
-//        User queryUser = userRepo.findUserByUsername(queryUserName);
-//        boolean canseeOtherEmployeeTasks = queryUser!=null && !queryUser.getUserName().equals(authenticatedUser.getUserName());
-//        if (isEmployee && canseeOtherEmployeeTasks){
-//            throw new ForbiddenAccessException("User Not Validated");
-//        }
-//    }

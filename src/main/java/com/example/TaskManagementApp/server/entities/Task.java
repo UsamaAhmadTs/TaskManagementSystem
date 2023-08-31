@@ -134,11 +134,4 @@ public class Task {
 //        history.setTask(this);
 //    }
 
-
-
-
-//    public static Task fromDto(TaskDto task) {
-//        return new Task( task.getTitle(), task.getDescription(),task.getTotalTime(),task.getCreatedAt(), task.getCreatedBy());
-//    }
-
 }

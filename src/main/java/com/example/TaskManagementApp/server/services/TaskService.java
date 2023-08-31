@@ -13,10 +13,5 @@ public interface TaskService {
     void updateTask(UserDto authenticatedUser, TaskDto taskDTO);
     List<TaskDto> getTasksByQueryParameters(UserDto authenticatedUser, QueryParameterDto queryParameters);
     void createTask(TaskDto taskDto, UserDto authenticatedUser);
-    List<Task> getAllTasks();
-    List<Task> viewAllTasksCreatedByManager(Manager manager);
-    List<Task> viewAllTasksByStatus(Task.Status status);
-    Task getTaskByTitle(String title);
-    List<Task> viewAssignedTasks(Employee employee);
-    Manager convertUserNameToManager(String userName);
+
 }

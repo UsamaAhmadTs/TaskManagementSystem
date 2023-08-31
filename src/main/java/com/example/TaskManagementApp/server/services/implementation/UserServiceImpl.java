@@ -7,6 +7,7 @@ import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.dto.UsernamePasswordDto;
 import com.example.TaskManagementApp.server.entities.Employee;
 import com.example.TaskManagementApp.server.entities.Manager;
+import com.example.TaskManagementApp.server.entities.Supervisor;
 import com.example.TaskManagementApp.server.entities.User;
 import com.example.TaskManagementApp.server.exception.ForbiddenAccessException;
 import com.example.TaskManagementApp.server.exception.UnauthorizedAccessException;
@@ -37,29 +38,22 @@ public class UserServiceImpl implements UserService {
         this.emf = emf;
     }
     public void initializeUsers() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            User employee1 = new User();
-            employee1.setUserName("e1");
-            employee1.setPassword("1");
-            employee1.setUserType(User.UserType.EMPLOYEE);
-            User manager1 = new User();
-            manager1.setUserName("m1");
-            manager1.setPassword("1");
-            manager1.setUserType(User.UserType.MANAGER);
-            User supervisor = new User();
+            Employee employee = new Employee();
+            employee.setUserName("e1");
+            employee.setPassword("1");
+            employee.setUserType(User.UserType.EMPLOYEE);
+            Manager manager = new Manager();
+            manager.setUserName("m1");
+            manager.setPassword("1");
+            manager.setUserType(User.UserType.MANAGER);
+            Supervisor supervisor = new Supervisor();
             supervisor.setUserName("s1");
             supervisor.setPassword("1");
             supervisor.setUserType(User.UserType.SUPERVISOR);
-            em.persist(employee1);
-            em.persist(manager1);
-            em.persist(supervisor);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
+            userRepo.save(employee);
+            userRepo.save(manager);
+            userRepo.save(supervisor);
         }
-    }
 @Override
 public void createUser(UserDto userDto, UserDto authenticatedUser) {
     validateUser(authenticatedUser);
