@@ -11,12 +11,12 @@ import com.example.TaskManagementApp.server.exception.BadRequestException;
 import com.example.TaskManagementApp.server.exception.ForbiddenAccessException;
 import com.example.TaskManagementApp.server.exception.UserNotFoundException;
 import com.example.TaskManagementApp.server.services.AuthService;
-import com.example.TaskManagementApp.server.services.EmployeeService;
-import com.example.TaskManagementApp.server.services.ManagerService;
 import com.example.TaskManagementApp.server.services.TaskService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
@@ -27,35 +27,40 @@ import java.util.Objects;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-
-    private final EmployeeService employeeService;
-    private final ManagerService managerServiceImpl;
     private final TaskRepo taskRepo;
     private final UserRepo userRepo;
-    private final EmployeeRepo employeeRepo;
     private final ManagerRepo managerRepo;
     private final AuthService authService;
-    //private final TaskHistoryRepo taskHistoryRepo;
-    private static TaskServiceImpl instance;
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
-
-    public TaskServiceImpl(EmployeeService employeeService,AuthService authService,UserRepo userRepo, ManagerService managerService, TaskRepo taskRepo, EmployeeRepo employeeRepo, ManagerRepo managerRepo) {
-        this.employeeService = employeeService;
-        this.managerServiceImpl = managerService;
+@Autowired
+    public TaskServiceImpl(AuthService authService,UserRepo userRepo, TaskRepo taskRepo, ManagerRepo managerRepo) {
         this.taskRepo = taskRepo;
-        this.employeeRepo = employeeRepo;
         this.managerRepo = managerRepo;
         this.authService= authService;
-        // this.taskHistoryRepo = taskHistoryRepo;
         this.userRepo= userRepo;
-
     }
     public List<TaskDto> getTasksByQueryParameters(UserDto authenticatedUser, QueryParameterDto queryParameters) {
         validateIfSupervisorCanViewTasks(authenticatedUser, queryParameters);
         validateIfManagerCanViewTasks(authenticatedUser, queryParameters);
         validateIfEmployeeCanViewTasks(authenticatedUser, queryParameters);
         List<Task> tasks = taskRepo.getTasks(authenticatedUser, queryParameters);
-        return null;
+        return mapTasksToTaskDtos(tasks);
+    }
+    private List<TaskDto> mapTasksToTaskDtos(List<Task> tasks) {
+        List<TaskDto> taskDtos=new ArrayList<>();
+        for(Task task:tasks)
+        {
+            TaskDto taskDto=new TaskDto();
+            taskDto.setTitle(task.getTaskTitle());
+            taskDto.setDescription(task.getDescription());
+            taskDto.setStatus(task.getTaskStatus());
+            taskDto.setAssignee(Objects.isNull(task.getAssignee()) ? null : task.getAssignee().getUserName());
+            taskDto.setCreatedAt(task.getCreatedAt());
+            taskDto.setCreatedBy(task.getCreatedBy().getUserName());
+            taskDto.setTotalTime(task.getTotalTime());
+            taskDtos.add(taskDto);
+        }
+        return taskDtos;
     }
     private void validateIfSupervisorCanViewTasks(UserDto authenticatedUser, QueryParameterDto queryParameters) {
         boolean isSupervisor = Objects.equals(authenticatedUser.getUserType(), User.UserType.SUPERVISOR);

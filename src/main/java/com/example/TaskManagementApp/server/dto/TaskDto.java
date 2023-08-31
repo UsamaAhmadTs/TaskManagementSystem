@@ -24,16 +24,26 @@ public class TaskDto {
 //        COMPLETED,
 //        IN_REVIEW
 //    }
-    public TaskDto(String title, String description, int totalTime,Instant createdAt, String createdBy) {
-        this.setStatus(Task.Status.CREATED);
-        this.title = title;
-        this.description = description;
-        this.totalTime = totalTime;
-        this.setAssigned(false);
-        this.createdAt= createdAt;
-        this.createdBy= createdBy;
-    }
+//    public TaskDto(String title, String description, int totalTime,Instant createdAt, String createdBy) {
+//        this.setStatus(Task.Status.CREATED);
+//        this.title = title;
+//        this.description = description;
+//        this.totalTime = totalTime;
+//        this.setAssigned(false);
+//        this.createdAt= createdAt;
+//        this.createdBy= createdBy;
+//    }
+    public TaskDto() {
 
+        this.status = null;
+        this.title = null;
+        this.description = null;
+        this.createdAt = null;
+        this.createdBy = null;
+        this.totalTime = 0;
+        this.assignee = null;
+
+    }
     public String getAssignee() {
         return assignee;
     }
