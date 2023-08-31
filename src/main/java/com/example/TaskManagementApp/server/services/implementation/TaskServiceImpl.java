@@ -1,3 +1,5 @@
+//correct formatting issue -> ctrl + alt + L
+
 package com.example.TaskManagementApp.server.services.implementation;
 import com.example.TaskManagementApp.server.dao.*;
 import com.example.TaskManagementApp.server.dto.QueryParameterDto;
@@ -50,6 +52,7 @@ public class TaskServiceImpl implements TaskService {
         return mapTasksToTaskDtos(tasks);
     }
     private List<TaskDto> mapTasksToTaskDtos(List<Task> tasks) {
+        //you may use stream
         List<TaskDto> taskDtos=new ArrayList<>();
         for(Task task:tasks)
         {
@@ -127,6 +130,7 @@ public class TaskServiceImpl implements TaskService {
             taskHistoryRepo.save(history);
         }
     }
+    //method name starts from small letter
     private Task TaskMapper(Task existingTask,TaskDto incomingTask) {
         existingTask.setTaskStatus(incomingTask.getStatus());
         existingTask.setDescription(incomingTask.getDescription());

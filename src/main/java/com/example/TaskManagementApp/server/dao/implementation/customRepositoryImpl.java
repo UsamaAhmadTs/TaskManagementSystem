@@ -12,6 +12,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.*;
 
+//correct class name
+//camel case with first letter capital
 @Repository
 public class customRepositoryImpl implements customRepository {
 
