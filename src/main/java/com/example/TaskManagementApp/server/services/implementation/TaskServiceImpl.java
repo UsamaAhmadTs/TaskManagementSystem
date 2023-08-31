@@ -4,6 +4,7 @@ import com.example.TaskManagementApp.server.dto.QueryParameterDto;
 import com.example.TaskManagementApp.server.dto.TaskDto;
 import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.entities.Task;
+import com.example.TaskManagementApp.server.entities.TaskHistory;
 import com.example.TaskManagementApp.server.entities.User;
 import com.example.TaskManagementApp.server.exception.BadRequestException;
 import com.example.TaskManagementApp.server.exception.ForbiddenAccessException;
@@ -11,6 +12,8 @@ import com.example.TaskManagementApp.server.exception.UserNotFoundException;
 import com.example.TaskManagementApp.server.services.AuthService;
 import com.example.TaskManagementApp.server.services.TaskService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -25,15 +28,19 @@ import java.util.Objects;
 
 @Service
 public class TaskServiceImpl implements TaskService {
+    private final TaskHistoryRepo taskHistoryRepo;
     private final TaskRepo taskRepo;
     private final UserRepo userRepo;
     private final AuthService authService;
+    private EntityManager entityManager;
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 @Autowired
-    public TaskServiceImpl(AuthService authService,UserRepo userRepo, TaskRepo taskRepo) {
+    public TaskServiceImpl(EntityManagerFactory emf,TaskHistoryRepo taskHistoryRepo,AuthService authService,UserRepo userRepo, TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
         this.authService= authService;
         this.userRepo= userRepo;
+        this.taskHistoryRepo =taskHistoryRepo;
+        this.entityManager = emf.createEntityManager();
     }
     public List<TaskDto> getTasksByQueryParameters(UserDto authenticatedUser, QueryParameterDto queryParameters) {
         validateIfSupervisorCanViewTasks(authenticatedUser, queryParameters);
@@ -103,8 +110,22 @@ public class TaskServiceImpl implements TaskService {
         Task incomingTask = new Task();
         BeanUtils.copyProperties(existingTask,incomingTask);
         Task updateTask = TaskMapper(existingTask,taskDto);
-
+        addTaskHistory(incomingTask,existingTask,authenticatedUser);
         taskRepo.save(updateTask);
+
+    }
+    public void addTaskHistory(Task incomingTask, Task existingTask, UserDto authenticatedUser) {
+
+        if (existingTask.getTaskStatus() != incomingTask.getTaskStatus()) {
+            User user = userRepo.getUserByUserName(authenticatedUser.getUserName());
+            TaskHistory history = new TaskHistory();
+            history.setTimestamp(Instant.now());
+            history.setOldStatus(existingTask.getTaskStatus());
+            history.setNewStatus(incomingTask.getTaskStatus());
+            history.setMovedBy(user);
+            history.setTask(incomingTask);
+            taskHistoryRepo.save(history);
+        }
     }
     private Task TaskMapper(Task existingTask,TaskDto incomingTask) {
         existingTask.setTaskStatus(incomingTask.getStatus());

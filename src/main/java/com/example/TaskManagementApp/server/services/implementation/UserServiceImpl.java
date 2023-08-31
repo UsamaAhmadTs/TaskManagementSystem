@@ -24,18 +24,10 @@ import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserRepo userRepo;
-    private final ManagerRepo managerRepo;
-    private final EmployeeRepo employeeRepo;
-    private EntityManagerFactory emf;
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-    public UserServiceImpl(UserRepo userRepository, EntityManagerFactory emf, ManagerRepo managerRepo, EmployeeRepo employeeRepo) {
-        this.managerRepo = managerRepo;
+    public UserServiceImpl(UserRepo userRepository) {
         this.userRepo = userRepository;
-        this.employeeRepo = employeeRepo;
-        this.emf = emf;
     }
     public void initializeUsers() {
             Employee employee = new Employee();

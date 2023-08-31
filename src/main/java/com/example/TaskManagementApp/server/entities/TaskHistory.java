@@ -25,89 +25,24 @@ public class TaskHistory {
     @JoinColumn()
     private User movedBy;
 
-//    @ManyToOne
-//    @JoinColumn(name = "Task_id")
-//    private Task task;
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private Task task;
+    public void setTask(Task task) {this.task = task;}
+    public Task getTask() {return task;}
+    public Instant getTimestamp() {return timestamp;}
 
+    public void setTimestamp(Instant timestamp) {this.timestamp = timestamp;}
 
-//    public Task getTask() {
-//        return task;
-//    }
-//    public void setTask(Task task) {
-//        this.task = task;
-//    }
+    public Task.Status getOldStatus() {return oldStatus;}
 
-    public Instant getTimestamp() {
-        return timestamp;
-    }
+    public void setOldStatus(Task.Status oldStatus) {this.oldStatus = oldStatus;}
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
+    public Task.Status getNewStatus() {return newStatus;}
 
-    public Task.Status getOldStatus() {
-        return oldStatus;
-    }
+    public void setNewStatus(Task.Status newStatus) {this.newStatus = newStatus;}
 
-    public void setOldStatus(Task.Status oldStatus) {
-        this.oldStatus = oldStatus;
-    }
-
-    public Task.Status getNewStatus() {
-        return newStatus;
-    }
-
-    public void setNewStatus(Task.Status newStatus) {
-        this.newStatus = newStatus;
-    }
-
-    public User getMovedBy() {
-        return movedBy;
-    }
-    public void setMovedBy(User movedBy) {
-        this.movedBy = movedBy;
-    }
-
-
+    public User getMovedBy() {return movedBy;}
+    public void setMovedBy(User movedBy) {this.movedBy = movedBy;}
 }
 
-
-//public class TaskHistory {
-//    private Instant timestamp;
-//    private Task.Status oldStatus;
-//    private Task.Status newStatus;
-//    private User movedBy;
-//
-//
-//    public Instant getTimestamp() {
-//        return timestamp;
-//    }
-//
-//    public void setTimestamp(Instant timestamp) {
-//        this.timestamp = timestamp;
-//    }
-//
-//    public Task.Status getOldStatus() {
-//        return oldStatus;
-//    }
-//
-//    public void setOldStatus(Task.Status oldStatus) {
-//        this.oldStatus = oldStatus;
-//    }
-//
-//    public Task.Status getNewStatus() {
-//        return newStatus;
-//    }
-//
-//    public void setNewStatus(Task.Status newStatus) {
-//        this.newStatus = newStatus;
-//    }
-//
-//    public User getMovedBy() {
-//        return movedBy;
-//    }
-//
-//    public void setMovedBy(User movedBy) {
-//        this.movedBy = movedBy;
-//    }
-//}

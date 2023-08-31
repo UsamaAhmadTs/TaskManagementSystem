@@ -35,7 +35,8 @@ public class Task {
     private User assignee;
     @Column(name = "start_Time")
     private Instant startTime;
-
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaskHistory> taskHistories = new ArrayList<>();
     public Task() {}
     public Task(String taskTitle, String description, int totalTime) {
         this.setTaskStatus(Status.CREATED);
@@ -45,92 +46,52 @@ public class Task {
         this.setAssigned(false);
     }
 
-
-
-    public enum Status {
-        CREATED,
-        IN_PROGRESS,
-        COMPLETED,
-        IN_REVIEW
-    }
-    public Instant getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Instant startTime) {
-        this.startTime = startTime;
-    }
+    public enum Status {CREATED, IN_PROGRESS, COMPLETED, IN_REVIEW}
+    public Instant getStartTime() {return startTime;}
+    public void setStartTime(Instant startTime) {this.startTime = startTime;}
     public User getAssignee() {
         return assignee;
     }
-
     public void setAssignee(User assignedTo) {
         this.assignee = assignedTo;
     }
     public Status getTaskStatus() {
         return taskStatus;
     }
-
     public void setTaskStatus(Status taskStatus) {
         this.taskStatus = taskStatus;
     }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
     public String getTaskTitle() {
         return taskTitle;
     }
-
     public void setTaskTitle(String title) {
         this.taskTitle = title;
     }
-
     public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description) {
-
-        this.description = description;
-    }
-
+    public void setDescription(String description) {this.description = description;}
     public User getCreatedBy() {
         return createdBy;
     }
-
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
-
     public boolean isAssigned() {
         return assigned;
     }
-
-    public void setAssigned(boolean assigned) {
-        this.assigned = assigned;
-    }
-
-    public int getTotalTime() {
-
-        return totalTime;
-    }
-
-    public void setTotalTime(int totalTime) {
-
-        this.totalTime = totalTime;
-    }
-//    public List<TaskHistory> getTaskHistory(Task task) {
-//        return task.taskHistory;
-//    }
-//
+    public void setAssigned(boolean assigned) {this.assigned = assigned;}
+    public int getTotalTime() {return totalTime;}
+    public void setTotalTime(int totalTime) {this.totalTime = totalTime;}
+    public List<TaskHistory> getTaskHistory(Task task) {return task.taskHistories;}
 //    public void setTaskHistory(TaskHistory history) {
-//        taskHistory.add(history);
+//        taskHistories.add(history);
 //        history.setTask(this);
 //    }
 

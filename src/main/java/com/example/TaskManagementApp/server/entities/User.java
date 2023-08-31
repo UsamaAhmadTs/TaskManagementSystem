@@ -1,5 +1,6 @@
 package com.example.TaskManagementApp.server.entities;
 
+import com.example.TaskManagementApp.server.dto.UserDto;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,15 +14,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType  userType;
 
-    public User() {
-
-    }
-
-    public enum UserType {
-        EMPLOYEE,
-        MANAGER,
-        SUPERVISOR
-    }
+    public User() {}
+    public enum UserType {EMPLOYEE,MANAGER, SUPERVISOR}
 
     public User(String userName, String password, UserType userType) {
         this.userName = userName;
@@ -29,9 +23,7 @@ public class User {
         this.userType = userType;
     }
 
-    public String getUserName() {
-        return userName;
-    }
+    public String getUserName() {return userName;}
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -58,6 +50,13 @@ public class User {
                 "userName='" + userName + '\'' +
                 ", userType=" + userType +
                 '}';
+    }
+    public static User from(UserDto userDto) {
+        return new User(
+                userDto.getUserName(),
+                userDto.getPassword(),
+                userDto.getUserType()
+        );
     }
 
 }
