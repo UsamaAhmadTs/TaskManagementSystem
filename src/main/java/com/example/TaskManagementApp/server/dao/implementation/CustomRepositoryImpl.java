@@ -1,7 +1,7 @@
 package com.example.TaskManagementApp.server.dao.implementation;
 
 import com.example.TaskManagementApp.server.dao.UserRepo;
-import com.example.TaskManagementApp.server.dao.customRepository;
+import com.example.TaskManagementApp.server.dao.CustomRepository;
 import com.example.TaskManagementApp.server.dto.QueryParameterDto;
 import com.example.TaskManagementApp.server.dto.UserDto;
 import com.example.TaskManagementApp.server.entities.Task;
@@ -10,16 +10,17 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+
 import java.util.*;
 
 @Repository
-public class customRepositoryImpl implements customRepository {
+public class CustomRepositoryImpl implements CustomRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
     private final UserRepo userRepo;
 
-    public customRepositoryImpl(UserRepo userRepo) {
+    public CustomRepositoryImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
@@ -66,7 +67,7 @@ public class customRepositoryImpl implements customRepository {
             jpql.append(" AND t.createdBy.userName = :authUserName");
             parameters.put("authUserName", authenticatedUser.getUserName());
         }
-        if (queryUser != null && !queryUser.getUserName().isEmpty()&& queryUser.getUserType().equals(User.UserType.EMPLOYEE)) {
+        if (queryUser != null && !queryUser.getUserName().isEmpty() && queryUser.getUserType().equals(User.UserType.EMPLOYEE)) {
             jpql.append(" AND t.assignee.userName = :queryUserName");
             parameters.put("queryUserName", queryUser.getUserName());
         }
